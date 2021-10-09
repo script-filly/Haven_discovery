@@ -26,6 +26,8 @@ wheels/
 MANIFEST
 
 # Ignore renpy launcher output
+cache
+saves
 *.rpyc
 *.rpyb
 *.rpymc
