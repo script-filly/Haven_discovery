@@ -138,6 +138,7 @@ init python:
 label battle_game_2:
     hide screen inventory
     hide screen itemdisplay
+    scene bg cave5
 
     $ party_list = [Member("Eebee", 100, healthcount, 3, 5)]
     $ potions_left = 10
