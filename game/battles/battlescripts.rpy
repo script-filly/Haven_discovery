@@ -10,13 +10,14 @@ screen battle_screen:
                 xminimum 250 xmaximum 250
                 yminimum 75
                 vbox:
-                    text "[each_party_member[name]]" size 22 xalign 0.5
+                    $ party_member_name = each_party_member.name
+                    text "[party_member_name]" size 22 xalign 0.5
                     null height 5
                     hbox:
                         bar:
                             xmaximum 130
-                            value each_party_member["current_hp"]
-                            range each_party_member["max_hp"]
+                            value each_party_member.cur_hp
+                            range each_party_member.max_hp
                             left_gutter 0
                             right_gutter 0
                             thumb None
@@ -24,10 +25,12 @@ screen battle_screen:
                             left_bar Frame("gui/barfull.png", 10, 0)
                             right_bar Frame("gui/barempy.png", 10, 0)
                         null width 5
-                        if each_party_member["current_hp"] <=0:
+                        if each_party_member.cur_hp <=0:
                          text "KO'd" size 16
                         else:
-                         text "[each_party_member[current_hp]] / [each_party_member[max_hp]]" size 16
+                         $ ally_cur_hp = each_party_member.cur_hp
+                         $ ally_max_hp = each_party_member.max_hp
+                         text "[ally_cur_hp] / [ally_max_hp]" size 16
         
         hbox:
             frame:
@@ -46,7 +49,7 @@ screen battle_screen:
         if enemies_list != []:
             for i, each_enemy_member in enumerate(enemies_list):
                 hbox:
-                    if players_turn and each_enemy_member["current_hp"] > 0:
+                    if players_turn and each_enemy_member.cur_hp > 0:
                         textbutton "Attack ->" action Return(i) yminimum 75
                     else:
                         textbutton "Attack ->" action None yminimum 75
@@ -56,13 +59,14 @@ screen battle_screen:
                         xminimum 250 xmaximum 250
                         yminimum 75
                         vbox:
-                            text "[each_enemy_member[name]]" size 22 xalign 0.5
+                            $ enemy_name = each_enemy_member.name
+                            text "[enemy_name]" size 22 xalign 0.5
                             null height 5   
                             hbox:
                                 bar:
                                     xmaximum 130
-                                    value each_enemy_member["current_hp"]
-                                    range each_enemy_member["max_hp"]
+                                    value each_enemy_member.cur_hp
+                                    range each_enemy_member.max_hp
                                     left_gutter 0
                                     right_gutter 0
                                     thumb None
@@ -70,8 +74,9 @@ screen battle_screen:
                                     left_bar Frame("gui/barfull.png", 10, 0)
                                     right_bar Frame("gui/barempy.png", 10, 0) 
                                 null width 5
-                                
-                                text "[each_enemy_member[current_hp]] / [each_enemy_member[max_hp]]" size 16
+                                $ enemy_cur_hp = each_enemy_member.cur_hp
+                                $ enemy_max_hp = each_enemy_member.max_hp
+                                text "[enemy_cur_hp] / [enemy_max_hp]" size 16
  
 init python:
     class Member:
