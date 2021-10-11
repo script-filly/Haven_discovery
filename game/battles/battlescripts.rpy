@@ -80,38 +80,59 @@ screen battle_screen:
  
 init python:
     class Member:
-        def __init__(name, max_hp, cur_hp, min_dmg, max_dmg):
-            name = name
-            max_hp = max_hp
-            cur_hp = cur_hp
-            min_dmg = min_dmg
-            max_dmg = max_dmg
+        def __init__(self, name, max_hp, cur_hp, min_dmg, max_dmg):
+            self.name = name
+            self.max_hp = max_hp
+            self.cur_hp = cur_hp
+            self.min_dmg = min_dmg
+            self.max_dmg = max_dmg
 
-        def display(xalign, yalign=0.78):
-            renpy.show(self.name, at_list=[xalign, yalign])
-            # renpy.with_statement(Dissolve()) # I can't tell if this statement does anything
+        def display(self, anim, xalign=0.05, yalign=0.8):
+            pos = Position(xalign=xalign, yalign=yalign)
+            trans = Dissolve(0.5)
+            renpy.show(anim, at_list=[pos])
+            renpy.with_statement(trans)
 
-        def show_status(xalign, yalign=0.78, anim_name='idle50'):
-            who = lower(self.name)
-            anim = '%s %s' % who % idle50
-            display(anim) if ally.cur_hp <= 50 else display(anim)
+        def show_status(self, xalign, yalign=0.78, anim_name=''):
+            if anim_name is '':
+                anim_name = 'idle50' if self.cur_hp <= 50 else 'idle100'
+            who = self.name.lower()
+            anim = '%s %s' % (who, anim_name)
+            self.display(anim, xalign, yalign)
 
-        def fainted():
-            result = True if self.cur_hp > 0 else False
+        def fainted(self):
+            result = False if self.cur_hp > 0 else True
             return result
+            # result = False
+            # if self.cur_hp > 0:
+                # result = False
+            # else:
+                # result = True
+            # return result
 
-    def heal(ally, potions, healthcount):
-        ally.cur_hp = min(ally.cur_hp+10, ally.max_hp)
-        potions_left -= 1
+
+    def heal(member, potions, healthcount):
+        member.cur_hp = min(member.cur_hp+10, member.max_hp)
+        potions -= 1
         healthcount += 10
 
-    def check_party(x):
-        for member in x:
-            if member["current_hp"] > 0:
-                return "ok"
-
-        return "lost"
-
+    # Checks for win or lose conditions
+    def check(members):
+        fainted = [""]
+        # fainted = []
+        # fainted.pop(0)
+        # for member in members:
+        for index in range(0, len(members)):
+            member = members[index]
+            if member.fainted():
+                # fainted += member.name
+                # fainted.append(str(member.name))
+                fainted.append(member.name)
+        fainted.pop(0)
+        if (len(fainted) == len(members)):
+            return True
+        else:
+            return False
 
 
 label battle_game_2:
