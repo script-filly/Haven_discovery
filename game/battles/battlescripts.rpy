@@ -140,45 +140,28 @@ label battle_game_2:
     hide screen itemdisplay
     scene bg cave5
 
-    $ party_list = [Member("Eebee", 100, healthcount, 3, 5)]
+
+    # Allies and Enemies can be added via party_list.append(Member(...))
+    $ party_list = [Member("Eebee", 100, healthcount, 3, 5), Member("Oleka", 100, olekahealth, 5, 6)]
     $ potions_left = 10
     $ players_turn = False
-    $ enemies_list = [] # Enemies list will have the description for enemies.
+    # $ enemies_list = [Member("SnAIke", 75, 75, 5, 12),] # TODO: Enemies will have descriptions
+    $ enemies_list = [Member("SnAIke", 1, 2, 5, 12),] # TODO: Enemies will have descriptions
 
     show screen battle_screen
 
-   ##Load in eebee health graphics##
-    if healthcount <=50:
-        show eebee idle50 at Position (xalign = 0.05, yalign = 0.8) with dissolve
-    elif healthcount >=51:
-        show eebee idle100 at Position (xalign = 0.05, yalign = 0.8) with dissolve
- 
-   ##Load in oleka health graphics##
-    if olekahealth <=50:
-        show oleka idle50 at Position (xalign = -0.03, yalign = 0.78) with dissolve
-    elif olekahealth >=51:
-        show oleka idle100 at Position (xalign = -0.03, yalign = 0.78) with dissolve
-    
-    show snaike disabled  at Position (xalign = 0.93, yalign = 0.8) with dissolve
-## We can add some allies to the party:##
+    $ party_list[0].show_status(0.05, 0.8)                  # Eebee
+    $ party_list[1].show_status(-0.03, 0.78)                # Oleka
+    $ enemies_list[0].display("snaike disabled", 0.93, 0.8) # SnAIke
+
     menu:
         "Malicious code dectected"
         "Help AI":
-            $ party_list.append (Member("Oleka", 100, olekahealth, 5, 6))
             play music "audio/music/suspended-battle.ogg"
-
-## Enemies party can be set manually or automatically like:##
-            $ enemies_list.append ( {"name":"SnAIke", "max_hp":75, "current_hp":75, "min_damage":5, "max_damage":12} )          
     "Let the battle begin!"
 
 ## Main battle loop ##
     label battle_2_loop:
-
-## At first let's check if player's party is ok.##
-        if check_party(party_list) == "lost":
-            jump battle_2_lose     
-        elif check_party(enemies_list) == 'lost':
-            jump battle_2_win
 
         python:
             # Check for lose
