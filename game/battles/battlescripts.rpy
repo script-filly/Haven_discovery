@@ -3,7 +3,7 @@ screen battle_screen:
     vbox:
         xalign 0.01 yalign 0.1
         spacing 5
-        
+
         for each_party_member in party_list:
             frame:
                 size_group "party"
@@ -25,13 +25,13 @@ screen battle_screen:
                             left_bar Frame("gui/barfull.png", 10, 0)
                             right_bar Frame("gui/barempy.png", 10, 0)
                         null width 5
-                        if each_party_member.cur_hp <=0:
-                         text "KO'd" size 16
+                        if each_party_member.cur_hp <= 0:
+                            text "KO'd" size 16
                         else:
-                         $ ally_cur_hp = each_party_member.cur_hp
-                         $ ally_max_hp = each_party_member.max_hp
-                         text "[ally_cur_hp] / [ally_max_hp]" size 16
-        
+                            $ ally_cur_hp = each_party_member.cur_hp
+                            $ ally_max_hp = each_party_member.max_hp
+                            text "[ally_cur_hp] / [ally_max_hp]" size 16
+
         hbox:
             frame:
                 size_group "party"
@@ -41,11 +41,11 @@ screen battle_screen:
                 textbutton "<- Use" action Return("heal") yminimum 30
             else:
                 textbutton "<- Use" action None yminimum 30
-        
+
     vbox:
         xalign 0.90 yalign 0.1
         spacing 5
-        
+
         if enemies_list != []:
             for i, each_enemy_member in enumerate(enemies_list):
                 hbox:
@@ -53,7 +53,7 @@ screen battle_screen:
                         textbutton "Attack ->" action Return(i) yminimum 75
                     else:
                         textbutton "Attack ->" action None yminimum 75
-                    
+
                     frame:
                         size_group "enemies"
                         xminimum 250 xmaximum 250
@@ -61,7 +61,7 @@ screen battle_screen:
                         vbox:
                             $ enemy_name = each_enemy_member.name
                             text "[enemy_name]" size 22 xalign 0.5
-                            null height 5   
+                            null height 5
                             hbox:
                                 bar:
                                     xmaximum 130
@@ -72,12 +72,12 @@ screen battle_screen:
                                     thumb None
                                     thumb_shadow None
                                     left_bar Frame("gui/barfull.png", 10, 0)
-                                    right_bar Frame("gui/barempy.png", 10, 0) 
+                                    right_bar Frame("gui/barempy.png", 10, 0)
                                 null width 5
                                 $ enemy_cur_hp = each_enemy_member.cur_hp
                                 $ enemy_max_hp = each_enemy_member.max_hp
                                 text "[enemy_cur_hp] / [enemy_max_hp]" size 16
- 
+
 init python:
     class Member:
         def __init__(self, name, max_hp, cur_hp, min_dmg, max_dmg):
@@ -166,7 +166,7 @@ label battle_game_2:
                         elif ally.name == 'Oleka':
                             o("10hp restored")
                     else: # Attack
-                        player_damage = renpy.random.randint( ally.min_dmg, ally.max_dmg )
+                        player_damage = renpy.random.randint( ally.min_dmg, ally.max_dmg)
                         enemies_list[res].cur_hp -= player_damage
 
                         if ally.cur_hp <= 0:
@@ -194,7 +194,7 @@ label battle_game_2:
                         if check(enemies_list):
                             break
 
-                ## Enemy's Turn
+                # Enemy's Turn
                 for index in range(0, len(enemies_list)):
                     enemy = enemies_list[index]
                     if enemy.cur_hp < 0:
@@ -235,9 +235,9 @@ label battle_game_2:
             elif check(enemies_list):
                 renpy.jump("battle_2_win")
 
-## The results of the game.
+# The results of the game.
 label battle_2_win:
-    show snaike death at Position (xpos=0.85, xanchor=0.5, ypos=0.9, yanchor=0.5) 
+    show snaike death at Position(xpos=0.85, xanchor=0.5, ypos=0.9, yanchor=0.5)
     "Well done!"
     hide snaike death
     $ cryptocount += 35
@@ -247,7 +247,7 @@ label battle_2_win:
     pause
     hide screen battle_screen
     return
-    
+
 label battle_2_lose:
     "X_X"
     hide screen battle_screen
