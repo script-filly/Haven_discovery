@@ -22,7 +22,7 @@ label start2:
 
 menu: 
  "Preview battle system":
-  call battle_game_3 from _call_battle_game_3     
+  call battle_game_2
  "Preview VN":
   jump start3
     
