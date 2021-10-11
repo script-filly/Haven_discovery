@@ -164,115 +164,124 @@ label battle_game_2:
     label battle_2_loop:
 
         python:
-            # Check for lose
-            fainted_party = []
-            for ally in party_list:
-                if ally.fainted():
-                    fainted_party + ally.name
-            if (fainted_party == len(party_list)):
-                renpy.jump('battle_2_lose')
+            while (not check(party_list) and not check(enemies_list)):
+            # while (True):
+                # if check(party_list):
+                    # break
+                    # # renpy.jump("battle_2_lose")
+                # elif check(enemies_list):
+                    # break
+                    # renpy.jump("battle_2_win")
+                # check(party_list, 'battle_2_lose')
+                ## Ally's Turn
+                for index in range(0, len(party_list)):
+                    ally = party_list[index]
+                    print(ally.name)
+                    if ally.cur_hp <= 0:
+                        continue # Skip turn
 
-            for ally in party_list:
-                if ally.cur_hp < 0:
-                    continue # Skip turn
-                else: # Process player input
-                    players_turn = True
+                    players_turn = True # Process player input
                     ally.show_status(0.3)
-
                     battle_narrator("%s, it\'s your turn now" % ally.name)
 
                     res = ui.interact()    # Get player input
                     players_turn = False   # Stop receiving inputs, and process the current action
 
                     if res == "heal":
-                        ally.heal(potions_left, healthcount)
+                        heal(ally, potions_left, healthcount)
                         if ally.name == 'Eebee':
                             e("10hp restored")
                         elif ally.name == 'Oleka':
                             o("10hp restored")
                     else: # Attack
                         player_damage = renpy.random.randint( ally.min_dmg, ally.max_dmg )
-                        enemies_list[res]["current_hp"] -= player_damage
+                        enemies_list[res].cur_hp -= player_damage
 
                         if ally.cur_hp <= 0:
-                            renpy.say(None, "Take this! (damage dealt - [%s]hp)" % player_damage)
+                            # renpy.say(None, "Take this! (damage dealt - [%s]hp)" % player_damage)
+                            battle_narrator("Take this! (damage dealt - [%s]hp)" % player_damage)
                         else:
                             if ally.name == 'Eebee':
-                                renpy.hide("Eebee") # Show character's turn is consumed
-                                ally.display(0.05)
-                            else:
-                                renpy.hide("oleka")
-                                ally.display(-0.03, 0.8)
+                                # renpy.hide("eebee") # Show character's turn is consumed
+                                renpy.hide("Eebee disabled") # Show character's turn is consumed
+                                ally.display("eebee fight", 0.05, 0.78)
+                                # renpy.call(renpy.random.choice(["etaunt1", "etaunt2", "etaunt3"]), from_current=True)
+                            elif ally.name == 'Oleka':
+                                renpy.hide("Oleka disabled")
+                                ally.display("oleka fight", -0.03, 0.8)
+                                # renpy.call(renpy.random.choice(["etaunt1", "etaunt2", "etaunt3"]), from_current=True)
                             renpy.show("snaike hurt")
-                            renpy.call("expression", renpy.random.choice(["etaunt1", "etaunt2", "etaunt3"]))
+                            # renpy.call(renpy.random.choice(["etaunt1", "etaunt2", "etaunt3"]), from_current=True)
+                            # renpy.call(renpy.random.choice(["etaunt1", "etaunt2", "etaunt3"]), from_current=True)
+                            # renpy.call("expression", renpy.random.choice(["etaunt1", "etaunt2", "etaunt3"]))
+                            # renpy.call(renpy.random.choice(["etaunt1", "etaunt2", "etaunt3"]))
+                            # renpy.call('_call_expression_1', renpy.random.choice(["etaunt1", "etaunt2", "etaunt3"]))
 
-                    ally.show_status() # Show status of party members
-        ## Enemy Turn
+                        # Update global health counters
+                        if (ally.name == 'Eebee'):
+                            healthcount = ally.cur_hp
+                        elif (ally.name == 'Oleka'):
+                            olekahealth = ally.cur_hp
+                        # ally.show_status() # Show status of party members
+                        if ally.name == 'Eebee':
+                            # ally.show_status(0.3)
+                            ally.show_status(0.05, 0.78)
+                        elif ally.name == 'Oleka':
+                            ally.show_status(-0.03, yalign=0.8)
+                        if check(enemies_list):
+                            break
 
-        if check_party(enemies_list) == "lost": ## At first let's check if enemy's party is ok.##
-            hide snaike fight
-            jump battle_2_win
+                ## Enemy Turn
+                # check(enemies_list, 'battle_2_win')
+                # if (check_party(enemies_list) == "lost"):
+                    # renpy.hide('snaike fight')
+                    # renpy.jump('battle_2_win')
 
-        ## All the party members will do their actions one after another.
-        $ enemy_index = 0
-        
-        while enemy_index < len(enemies_list):
-            $ current_enemy = enemies_list[enemy_index]
-            
-            ## Current enemy will act only if he is still alive.
-            
-            if current_enemy["current_hp"] > 0:
-                
-                ## Let's check if player's party is still ok.
-                if check_party(party_list) == "lost":
-                    jump battle_2_lose
+                # for enemy in enemies_list:
+                for index in range(0, len(enemies_list)):
+                    enemy = enemies_list[index]
+                    if enemy.cur_hp < 0:
+                        continue # Skip turn
+                    ally = party_list[renpy.random.randint(0, (len(party_list)-1))]
+                    enemy_dmg = renpy.random.randint(enemy.min_dmg, enemy.max_dmg)
+                    ally.cur_hp -= enemy_dmg
 
-                ## Enemy will attack the random player.
-                $ party_member_to_attack = party_list[renpy.random.randint( 0, (len(party_list)-1) )]
-                $ enemy_damage = renpy.random.randint( current_enemy["min_damage"], current_enemy["max_damage"] )
-                $ party_member_to_attack["current_hp"] -= enemy_damage
+                    if ally.cur_hp <= 0:
+                        renpy.show('snaike fight')
+                        ally.show_status(0.0, 0.78, 'ko')
+                        # renpy.say(None, '(%s continues to attack %s)!' % enemy.name % ally.name)
+                        battle_narrator('(%s continues to attack %s)!' % (enemy.name, ally.name))
+                    else:
+                        renpy.show('snaike fight')
+                        if (ally.name == 'Eebee'):
+                            ally.show_status(0.05, 0.78, 'hurt')
+                        elif (ally.name == 'Oleka'):
+                            ally.show_status(-0.03, 0.8, 'hurt')
+                        # renpy.say(None, 'Rrrrr! (%s dealt %s hp damage to %s)' % enemy.name % enemy_dmg % ally.name)
+                        battle_narrator('Rrrrr! (%s dealt %s hp damage to %s)' % (enemy.name, enemy_dmg, ally.name))
 
-                ##Eebees Hit##
-                if party_member_to_attack["name"] == "Eebee":
-                 if party_member_to_attack["current_hp"] <= 0:
-                  show snaike fight
-                  show eebee ko at Position (xalign = 0.0, yalign = 0.78) with dissolve
-                  "([current_enemy[name]] continues to attack [party_member_to_attack[name]])!"
-                  $ healthcount = 1
-                 else:
-                  show snaike fight
-                  show eebee hurt at Position (xalign = 0.05, yalign = 0.78) with dissolve
-                  "Rrrrr! ([current_enemy[name]] dealt [enemy_damage]hp damage to [party_member_to_attack[name]])"
-                  $ healthcount -= enemy_damage
-                ##Oleka Hit##
-                elif party_member_to_attack["name"] == "Oleka":
-                 if party_member_to_attack["current_hp"] <= 0:
-                  show snaike fight
-                  show oleka hurt at Position (xalign = -0.03, yalign = 0.8) with dissolve
-                  "([current_enemy[name]] continues to attack [party_member_to_attack[name]])!"
-                  $ olekahealth = 1
-                 else:
-                  show snaike fight
-                  show oleka hurt at Position (xalign = -0.03, yalign = 0.8) with dissolve
-                  $ olekahealth -= enemy_damage
-                  "Rrrrr! ([current_enemy[name]] dealt [enemy_damage]hp damage to [party_member_to_attack[name]])"  
+                        # Update global health counters
+                        if ally.name == 'Eebee':
+                            healthcount = ally.cur_hp
+                        elif ally.name == 'Oleka':
+                            olekahealth = ally.cur_hp
 
-            ## And the turn goes to the next party member.
-            $ enemy_index += 1
-        ## Next round of the battle.
-    if healthcount <=50:
-        show eebee idle50 at Position (xalign = 0.3, yalign = 0.78) with dissolve
-    elif healthcount >=51:
-        show eebee idle100 at Position (xalign = 0.3, yalign = 0.78) with dissolve
+                    if ally.name == 'Eebee':
+                        # ally.show_status(0.3)
+                        ally.show_status(0.05, 0.78)
+                    elif ally.name == 'Oleka':
+                        ally.show_status(-0.03, yalign=0.8)
+                    if check(party_list):
+                        break
 
-    if olekahealth <=50:
-        show oleka idle50 at Position (xalign = -0.03, yalign = 0.8) with dissolve
-    elif olekahealth >=51:
-        show oleka idle100 at Position (xalign = -0.03, yalign = 0.8) with dissolve
-    jump battle_2_loop
+            if check(party_list):
+                renpy.jump("battle_2_lose")
+            elif check(enemies_list):
+                renpy.jump("battle_2_win")
+            else:
+                print("No Jump")
 
 ## The results of the game.
-
 label battle_2_win:
     show snaike death at Position (xpos=0.85, xanchor=0.5, ypos=0.9, yanchor=0.5) 
     "Well done!"
