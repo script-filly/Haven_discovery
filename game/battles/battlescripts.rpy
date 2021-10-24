@@ -79,10 +79,9 @@ screen battle_screen:
                                 text "[enemy_cur_hp] / [enemy_max_hp]" size 16
 
 init python:
-    def heal(member, potions, healthcount):
+    def heal(member, potions):
         member.cur_hp = min(member.cur_hp+10, member.max_hp)
         potions -= 1
-        healthcount += 10
 
     def check(members): # Check for win or lose conditions
         fainted = []
@@ -98,7 +97,6 @@ label battle_game_2:
     scene bg cave5
 
     # Allies and Enemies can be added via party_list.append(Member(...))
-    # $ party_list = [Member("Eebee", 100, healthcount, 3, 5), Member("Oleka", 100, olekahealth, 5, 6)]
     $ party_list = [eebee, oleka]
     $ potions_left = 10
     $ players_turn = False
@@ -125,7 +123,6 @@ label battle_2_loop:
             # Ally's Turn
             for index in range(0, len(party_list)):
                 ally = party_list[index]
-                print(ally.name)
                 if ally.cur_hp <= 0:
                     continue # Skip turn
 
@@ -137,11 +134,8 @@ label battle_2_loop:
                 players_turn = False   # Stop receiving inputs, and process the current action
 
                 if res == "heal":
-                    heal(ally, potions_left, healthcount)
-                    if ally.name == 'Eebee':
-                        e("10hp restored")
-                    elif ally.name == 'Oleka':
-                        o("10hp restored")
+                    heal(ally, potions_left)
+                    ally.say("10hp restored")
                 else: # Attack
                     player_damage = renpy.random.randint( ally.min_dmg, ally.max_dmg)
                     enemies_list[res].cur_hp -= player_damage

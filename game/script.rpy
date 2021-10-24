@@ -2,11 +2,6 @@
 define config.layers = ['underlay', 'master', 'transient','itemmap', 'screen1', 'snow1','screens', 'torch', 'ui', 'overlay']
 define res = 0
 
-# name of the character.
-define e = Character(_("Eebee"), color="#00CC00")
-define i = Character(_("Inventory"), color="#cccccc")
-define o = Character(_("oleka"), color="#00CC00")
-define b = Character(_("Blazer"), color="#00CC00")
 # The game starts here.
 
 label start:

@@ -1,11 +1,22 @@
-﻿init python:
+﻿# define e = Character(_("Eebee"), color="#00CC00")
+# define o = Character(_("oleka"), color="#00CC00")
+
+init python:
     import os
     player_name = os.environ.get('username')
     osu = os.environ.get ('osname')
 
+    e = Character(_("Eebee"), color="#00CC00")
+    i = Character(_("Inventory"), color="#cccccc")
+    o = Character(_("oleka"), color="#00CC00")
+    b = Character(_("Blazer"), color="#00CC00")
+
     # Define Member
     class Member:
-        def __init__(self, name, max_hp, cur_hp, min_dmg, max_dmg):
+        def __init__(self, name,
+                     max_hp, cur_hp,
+                     min_dmg, max_dmg
+                     ):
             self.name = name
             self.max_hp = max_hp
             self.cur_hp = cur_hp
@@ -29,8 +40,19 @@
         def fainted(self):
             return (False if self.cur_hp > 0 else True)
 
-    eebee = Member("Eebee", 100, 100, 3, 5)
-    oleka = Member("Oleka", 100, 60, 5, 6)
+        def say(self, msg):
+            self.char(msg)
+
+    class Party(Member):
+        def __init__(self, name,
+                     max_hp, cur_hp,
+                     min_dmg, max_dmg,
+                     char):
+            super(Party, self).__init__(name, max_hp, cur_hp, min_dmg, max_dmg)
+            self.char = char
+
+    eebee = Party("Eebee", 100, 100, 3, 5, e)
+    oleka = Party("Oleka", 100, 60, 5, 6, o)
 
 python:
     if affectioncount <= 0:
