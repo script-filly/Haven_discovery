@@ -112,10 +112,10 @@ label battle_game_2:
         "Help AI":
             play music "audio/music/suspended-battle.ogg"
     "Let the battle begin!"
-    jump battle_2_loop
+    call battle_2_loop('battle_2_win', 'battle_2_lose')
 
 ## Main battle loop ##
-label battle_2_loop:
+label battle_2_loop(win, lose):
 
     python:
         while (not check(party_list) and not check(enemies_list)):
@@ -175,9 +175,9 @@ label battle_2_loop:
 
         # In case all enemies are already defeated
         if check(party_list):
-            renpy.jump("battle_2_lose")
+            renpy.jump(lose)
         elif check(enemies_list):
-            renpy.jump("battle_2_win")
+            renpy.jump(win)
 
 # The results of the game.
 label battle_2_win:
