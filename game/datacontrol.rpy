@@ -1,7 +1,4 @@
-﻿# define e = Character(_("Eebee"), color="#00CC00")
-# define o = Character(_("oleka"), color="#00CC00")
-
-init python:
+﻿init python:
     import os
     player_name = os.environ.get('username')
     osu = os.environ.get ('osname')
@@ -51,10 +48,6 @@ init python:
             self.char = char
             self.pos = pos
 
-    # eebee = Party("Eebee", 100, 100, 3, 5, e, Pos(Point(0.05, 0.78)))
-    # oleka = Party("Oleka", 100, 60, 5, 6, o, Pos(Point(-0.03, 0.8)))
-    # eebee = Party("Eebee", 100, 100, 3, 5, e, Pos([0.05, 0.78]))
-    # oleka = Party("Oleka", 100, 60, 5, 6, o, Pos([-0.03, 0.8]))
     eebee = Party("Eebee", 100, 100, 3, 5, e, [0.05, 0.78])
     oleka = Party("Oleka", 100, 60, 5, 6, o, [-0.03, 0.8])
 

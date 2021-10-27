@@ -103,12 +103,8 @@ label battle_game_2:
     $ enemies_list = [Member("SnAIke", 75, 75, 5, 12),] # TODO: Enemies will have descriptions
 
     show screen battle_screen
-
-    # $ party_list[0].show_status(0.05, 0.8)                  # Eebee
-    # $ party_list[0].show_status(0.05, 0.78)                  # Eebee
-    $ party_list[0].show_status(*party_list[0].pos)                  # Eebee
-    # $ party_list[1].show_status(-0.03, 0.78)                # Oleka
-    $ party_list[1].show_status(*party_list[1].pos)                # Oleka
+    $ party_list[0].show_status(*party_list[0].pos)         # Eebee
+    $ party_list[1].show_status(*party_list[1].pos)         # Oleka
     $ enemies_list[0].display("snaike disabled", 0.93, 0.8) # SnAIke
 
     menu:
@@ -146,26 +142,11 @@ label battle_2_loop:
                     if ally.cur_hp <= 0:
                         battle_narrator("Take this! (damage dealt - [%s]hp)" % player_damage)
                     else:
-                        renpy.hide('%s %s' % (ally.name, 'disabled'))
+                        renpy.hide('%s %s' % (ally.name, 'disabled')) # Show character's turn is consumed
                         ally.show_status(*ally.pos, anim_name='fight')
-                        # ally.display(('%s fight' % ally.name.lower()), *ally.pos)
-
-                        # ally.display(('%s fight' % ally.name), *ally.pos.pos)
-                        # ally.display("eebee fight", 0.05, 0.78)
-                        # if ally.name == 'Eebee':
-                            # renpy.hide("Eebee disabled") # Show character's turn is consumed
-                            # ally.display("eebee fight", 0.05, 0.78)
-                        # elif ally.name == 'Oleka':
-                            # renpy.hide("Oleka disabled")
-                            # ally.display("oleka fight", -0.03, 0.8)
                         renpy.show("snaike hurt")
                         # renpy.call(renpy.random.choice(["etaunt1", "etaunt2", "etaunt3"]), from_current=True)
                     ally.show_status(*ally.pos)
-
-                    # if ally.name == 'Eebee':
-                        # ally.show_status(0.05, 0.78)
-                    # elif ally.name == 'Oleka':
-                        # ally.show_status(-0.03, yalign=0.8)
                     if check(enemies_list):
                         break
 
@@ -186,18 +167,9 @@ label battle_2_loop:
                 else:
                     renpy.show('snaike fight')
                     ally.show_status(*ally.pos, anim_name='hurt')
-
-                    # if (ally.name == 'Eebee'):
-                        # ally.show_status(0.05, 0.78, 'hurt')
-                    # elif (ally.name == 'Oleka'):
-                        # ally.show_status(-0.03, 0.8, 'hurt')
                     battle_narrator('Rrrrr! (%s dealt %s hp damage to %s)' % (enemy.name, enemy_dmg, ally.name))
 
                 ally.show_status(*ally.pos)
-                # if ally.name == 'Eebee':
-                    # ally.show_status(0.05, 0.78)
-                # elif ally.name == 'Oleka':
-                    # ally.show_status(-0.03, yalign=0.8)
                 if check(party_list):
                     break
 
