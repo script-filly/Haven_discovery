@@ -11,7 +11,6 @@ init python:
     o = Character(_("oleka"), color="#00CC00")
     b = Character(_("Blazer"), color="#00CC00")
 
-    # Define Member
     class Member:
         def __init__(self, name,
                      max_hp, cur_hp,
@@ -47,12 +46,17 @@ init python:
         def __init__(self, name,
                      max_hp, cur_hp,
                      min_dmg, max_dmg,
-                     char):
+                     char, pos):
             super(Party, self).__init__(name, max_hp, cur_hp, min_dmg, max_dmg)
             self.char = char
+            self.pos = pos
 
-    eebee = Party("Eebee", 100, 100, 3, 5, e)
-    oleka = Party("Oleka", 100, 60, 5, 6, o)
+    # eebee = Party("Eebee", 100, 100, 3, 5, e, Pos(Point(0.05, 0.78)))
+    # oleka = Party("Oleka", 100, 60, 5, 6, o, Pos(Point(-0.03, 0.8)))
+    # eebee = Party("Eebee", 100, 100, 3, 5, e, Pos([0.05, 0.78]))
+    # oleka = Party("Oleka", 100, 60, 5, 6, o, Pos([-0.03, 0.8]))
+    eebee = Party("Eebee", 100, 100, 3, 5, e, [0.05, 0.78])
+    oleka = Party("Oleka", 100, 60, 5, 6, o, [-0.03, 0.8])
 
 python:
     if affectioncount <= 0:
