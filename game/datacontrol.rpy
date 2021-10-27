@@ -25,13 +25,20 @@
             renpy.show(anim, at_list=[pos])
             renpy.with_statement(trans)
 
-        # Show status of party members
+        # Shows member status animation with dissolve transition
         def show_status(self, xalign, yalign=0.78, anim_name=''):
             if anim_name is '':
                 anim_name = 'idle50' if self.cur_hp <= 50 else 'idle100'
             who = self.name.lower()
             anim = '%s %s' % (who, anim_name)
             self.display(anim, xalign, yalign)
+
+        # Show generic status with renpy.show
+        def show(self, anim=''):
+            renpy.hide('%s %s' % (self.name, anim)) # Show character's turn is consumed
+
+        def hide(self):
+            renpy.hide('%s %s' % (self.name, 'disabled')) # Show character's turn is consumed
 
         def fainted(self):
             return (False if self.cur_hp > 0 else True)

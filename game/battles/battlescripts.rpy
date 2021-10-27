@@ -137,14 +137,15 @@ label battle_2_loop:
                     ally.say("10hp restored")
                 else: # Attack
                     player_damage = renpy.random.randint( ally.min_dmg, ally.max_dmg)
-                    enemies_list[res].cur_hp -= player_damage
+                    enemy = enemies_list[res]
+                    enemy.cur_hp -= player_damage
 
                     if ally.cur_hp <= 0:
                         battle_narrator("Take this! (damage dealt - [%s]hp)" % player_damage)
                     else:
-                        renpy.hide('%s %s' % (ally.name, 'disabled')) # Show character's turn is consumed
+                        ally.hide() # Show character's turn is consumed
                         ally.show_status(*ally.pos, anim_name='fight')
-                        renpy.show("snaike hurt")
+                        enemy.show('hurt')
                         # renpy.call(renpy.random.choice(["etaunt1", "etaunt2", "etaunt3"]), from_current=True)
                     ally.show_status(*ally.pos)
                     if check(enemies_list):
@@ -160,12 +161,11 @@ label battle_2_loop:
                 enemy_dmg = renpy.random.randint(enemy.min_dmg, enemy.max_dmg)
                 ally.cur_hp -= enemy_dmg
 
+                enemy.show('fight')
                 if ally.cur_hp <= 0:
-                    renpy.show('snaike fight')
                     ally.show_status(0.0, 0.78, 'ko')
                     battle_narrator('(%s continues to attack %s)!' % (enemy.name, ally.name))
                 else:
-                    renpy.show('snaike fight')
                     ally.show_status(*ally.pos, anim_name='hurt')
                     battle_narrator('Rrrrr! (%s dealt %s hp damage to %s)' % (enemy.name, enemy_dmg, ally.name))
 
