@@ -103,9 +103,58 @@ label battle_game_2:
     $ enemies_list = [Member("SnAIke", 75, 75, 5, 12),] # TODO: Enemies will have descriptions
 
     show screen battle_screen
-    $ party_list[0].show_status(*party_list[0].pos)         # Eebee
-    $ party_list[1].show_status(*party_list[1].pos)         # Oleka
-    $ enemies_list[0].display("snaike disabled", 0.93, 0.8) # SnAIke
+    # $ party_list[0].show_status(*party_list[0].pos)         # Eebee
+    # $ party_list[1].show_status(*party_list[1].pos)         # Oleka
+    python:
+        for mem in party_list:
+            mem.show_status(*mem.pos)
+        enemies_list[0].display("snaike disabled", 0.93, 0.8) # SnAIke
+
+    menu:
+        "Malicious code dectected"
+        "Help AI":
+            play music "audio/music/suspended-battle.ogg"
+    "Let the battle begin!"
+    call battle_2_loop('battle_2_win', 'battle_2_lose')
+
+label battle_3:
+    show bg cave6
+    hide screen inventory
+    hide screen itemdisplay
+
+    $ party_list = [eebee, oleka, blazer]
+    $ potions_left = 10
+    $ players_turn = False
+    $ enemies_list = [Member("P0niP3d3", 500, 500, 10, 20)]
+
+    show screen battle_screen
+    # $ party_list[0].show_status(*party_list[0].pos)         # Eebee
+    # $ party_list[1].show_status(*party_list[1].pos)         # Oleka
+    # $ party_list[2].show_status(*party_list[2].pos)         # Blazer
+    python:
+        party_list[0].bpos = [0.00, 0.648] # Eebee
+        party_list[1].bpos = [0.02, 0.648] # Oleka
+        party_list[2].bpos = [0.02, 0.540] # Blazer
+
+        party_list[0].fpos = [0.07, 0.648] # Eebee
+        party_list[1].fpos = [0.07, 0.648] # Oleka
+        party_list[2].fpos = [0.07, 0.540] # Blazer
+        # for mem in party_list:
+            # mem.show_status(*mem.pos)
+        for mem in party_list:
+            anim_name = ''
+            if (mem.name != 'blazer'):
+                anim_name = 'idle50' if mem.cur_hp <= 50 else 'idle100'
+            else:
+                anim_name = 'idle'
+            anim = '%s %s' % (mem.name.lower(), anim_name)
+
+            mem.dplay(anim, 0.3, 0.3, [Dissolve(0.5)], *mem.bpos)
+        # enemies_list[0].show_status(*enemies_list[0].pos, anim_name='idle') # PoniP3d3
+        # Adjust zoom because it will be too big to fit on the screen otherwise
+        enemies_list[0].display("ponipede idle", 0.5, -0.8) # PoniP3d3
+        # enemies_list[0].dplay("ponipede idle", 0.3, 0.3, [Dissolve(0.5)], 0.5, -0.8) # PoniP3d3
+        # enemies_list[0].dplay("ponipede idle", 0.0, 0.0, [Dissolve(0.5)], 0.5, -0.8) # PoniP3d3
 
     menu:
         "Malicious code dectected"
@@ -126,7 +175,10 @@ label battle_2_loop(win, lose):
                     continue # Skip turn
 
                 players_turn = True # Process player input
-                ally.show_status(0.3)
+                # ally.show_status(0.3)
+                # x, y = ally.pos
+                # ally.show_status(0.3, y)
+                ally.show_status(*ally.fpos)
                 battle_narrator("%s, it\'s your turn now" % ally.name)
 
                 res = ui.interact()    # Get player input
@@ -144,10 +196,10 @@ label battle_2_loop(win, lose):
                         battle_narrator("Take this! (damage dealt - [%s]hp)" % player_damage)
                     else:
                         ally.hide() # Show character's turn is consumed
-                        ally.show_status(*ally.pos, anim_name='fight')
+                        ally.show_status(*ally.bpos, anim_name='fight')
                         enemy.show('hurt')
                         # renpy.call(renpy.random.choice(["etaunt1", "etaunt2", "etaunt3"]), from_current=True)
-                    ally.show_status(*ally.pos)
+                    ally.show_status(*ally.bpos)
                     if check(enemies_list):
                         break
 
@@ -163,13 +215,15 @@ label battle_2_loop(win, lose):
 
                 enemy.show('fight')
                 if ally.cur_hp <= 0:
-                    ally.show_status(0.0, 0.78, 'ko')
+                    # ally.show_status(0.0, 0.78, 'ko')
+                    ally.show_status(*ally.bpos, anim_name='ko')
                     battle_narrator('(%s continues to attack %s)!' % (enemy.name, ally.name))
                 else:
-                    ally.show_status(*ally.pos, anim_name='hurt')
+                    # ally.show_status(*ally.pos, anim_name='hurt')
+                    ally.show_status(*ally.bpos, anim_name='hurt')
                     battle_narrator('Rrrrr! (%s dealt %s hp damage to %s)' % (enemy.name, enemy_dmg, ally.name))
 
-                ally.show_status(*ally.pos)
+                ally.show_status(*ally.bpos)
                 if check(party_list):
                     break
 

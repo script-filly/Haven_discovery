@@ -19,6 +19,16 @@
             self.min_dmg = min_dmg
             self.max_dmg = max_dmg
 
+        # dplay offers more control over display, where
+        # you can pass in arbitrary renpy Transitions
+        def dplay(self, anim, xzoom, yzoom, trans, xalign=0.05, yalign=0.8):
+            # pos = Position(xalign=xalign, yalign=yalign, xzoom=xzoom, yzoom=yzoom)
+            pos = Position(xalign=xalign, yalign=yalign)
+            tfm = Transform(xzoom=xzoom, yzoom=yzoom)
+            renpy.show(anim, at_list=[pos, tfm])
+            for tran in trans:
+                renpy.with_statement(tran)
+
         def display(self, anim, xalign=0.05, yalign=0.8):
             pos = Position(xalign=xalign, yalign=yalign)
             trans = Dissolve(0.5)
@@ -29,6 +39,7 @@
         def show_status(self, xalign, yalign=0.78, anim_name=''):
             if anim_name is '':
                 anim_name = 'idle50' if self.cur_hp <= 50 else 'idle100'
+
             who = self.name.lower()
             anim = '%s %s' % (who, anim_name)
             self.display(anim, xalign, yalign)
@@ -50,13 +61,18 @@
         def __init__(self, name,
                      max_hp, cur_hp,
                      min_dmg, max_dmg,
-                     char, pos):
+                     char, fpos, bpos):
+                     # char, pos):
             super(Party, self).__init__(name, max_hp, cur_hp, min_dmg, max_dmg)
             self.char = char
-            self.pos = pos
+            # self.pos = pos
+            self.fpos = fpos
+            self.bpos = bpos
 
-    eebee = Party("Eebee", 100, 100, 3, 5, e, [0.05, 0.78])
-    oleka = Party("Oleka", 100, 60, 5, 6, o, [-0.03, 0.8])
+    # Define all possible party members here
+    eebee  = Party("Eebee", 100, 100, 3, 5, e, [0.05, 0.78], [0.30, 0.78])
+    oleka  = Party("Oleka", 100, 60, 5, 6, o, [-0.03, 0.8], [0.30, 0.80])
+    blazer = Party("Blazer", 100, 49, 10, 15, b, [0.02, 0.5], [0.30, 0.80])
 
 python:
     if affectioncount <= 0:
@@ -90,3 +106,5 @@ default check5 = False
 default check6 = False
 default check7 = False
 default check8 = False
+default healthcount = 100
+default olekahealth = 100
