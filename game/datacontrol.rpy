@@ -22,7 +22,6 @@
         # dplay offers more control over display, where
         # you can pass in arbitrary renpy Transitions
         def dplay(self, anim, xzoom, yzoom, trans, xalign=0.05, yalign=0.8):
-            # pos = Position(xalign=xalign, yalign=yalign, xzoom=xzoom, yzoom=yzoom)
             pos = Position(xalign=xalign, yalign=yalign)
             tfm = Transform(xzoom=xzoom, yzoom=yzoom)
             renpy.show(anim, at_list=[pos, tfm])
@@ -62,10 +61,12 @@
                      max_hp, cur_hp,
                      min_dmg, max_dmg,
                      char, fpos, bpos):
-                     # char, pos):
             super(Party, self).__init__(name, max_hp, cur_hp, min_dmg, max_dmg)
             self.char = char
-            # self.pos = pos
+            self.fpos = fpos
+            self.bpos = bpos
+
+        def setpos(self, fpos, bpos):
             self.fpos = fpos
             self.bpos = bpos
 
