@@ -19,12 +19,17 @@
             self.min_dmg = min_dmg
             self.max_dmg = max_dmg
 
-        # dplay offers more control over display, where
-        # you can pass in arbitrary renpy Transitions
-        def dplay(self, anim, xzoom, yzoom, trans, xalign=0.05, yalign=0.8):
-            pos = Position(xalign=xalign, yalign=yalign)
-            tfm = Transform(xzoom=xzoom, yzoom=yzoom)
-            renpy.show(anim, at_list=[pos, tfm])
+        def update(self, anim, pos,
+                   zoom=(1.0, 1.0), time=0.5):
+            x, y = pos
+            pos = Position(xalign=x, yalign=y)
+            xzoom, yzoom = zoom
+            tfms = Transform(xzoom=xzoom, yzoom=yzoom)
+            trans = [Dissolve(time)]
+            mem.dplay(anim, pos, tfms, trans)
+
+        def dplay(self, anim, pos, tfms, trans):
+            renpy.show(anim, at_list=[pos, tfms])
             for tran in trans:
                 renpy.with_statement(tran)
 

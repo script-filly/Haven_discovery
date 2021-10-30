@@ -100,15 +100,14 @@ label battle_game_2:
     $ party_list = [eebee, oleka]
     $ potions_left = 10
     $ players_turn = False
-    $ enemies_list = [Member("SnAIke", 75, 75, 5, 12),] # TODO: Enemies will have descriptions
+    $ snaike = Member("SnAIke", 75, 75, 5, 12)
+    $ enemies_list = [snaike] # TODO: Enemies will have descriptions
 
     show screen battle_screen
-    # $ party_list[0].show_status(*party_list[0].pos)         # Eebee
-    # $ party_list[1].show_status(*party_list[1].pos)         # Oleka
     python:
         for mem in party_list:
             mem.show_status(*mem.pos)
-        enemies_list[0].display("snaike disabled", 0.93, 0.8) # SnAIke
+        snaike.display("snaike disabled", 0.93, 0.8) # SnAIke
 
     menu:
         "Malicious code dectected"
@@ -125,7 +124,8 @@ label battle_3:
     $ party_list = [eebee, oleka, blazer]
     $ potions_left = 10
     $ players_turn = False
-    $ enemies_list = [Member("P0niP3d3", 500, 500, 10, 20)]
+    $ ponipede = Member("P0niP3d3", 500, 500, 10, 20)
+    $ enemies_list = [ponipede]
 
     show screen battle_screen
     python:
@@ -134,11 +134,8 @@ label battle_3:
         blazer.setpos(bpos=[0.02, 0.540], fpos=[0.07, 0.540])
 
         for mem in party_list:
-            anim_name = 'idle50' if mem.cur_hp <= 50 else 'idle100'
-            anim = '%s %s' % (mem.name.lower(), anim_name)
-
-            mem.dplay(anim, 0.3, 0.3, [Dissolve(0.5)], *mem.bpos)
-        enemies_list[0].display("ponipede idle", 0.5, -0.8) # PoniP3d3
+            mem.update(idle(), pos=mem.bpos, zoom=(0.3, 0.3))
+        ponipede.update("ponipede idle", pos=(0.5, -0.8)) # PoniP3d3
 
     menu:
         "Malicious code dectected"
