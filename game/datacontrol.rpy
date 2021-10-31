@@ -33,24 +33,11 @@
             for tran in trans:
                 renpy.with_statement(tran)
 
-        def display(self, anim, xalign=0.05, yalign=0.8):
-            pos = Position(xalign=xalign, yalign=yalign)
-            trans = Dissolve(0.5)
-            renpy.show(anim, at_list=[pos])
-            renpy.with_statement(trans)
-
-        # Shows member status animation with dissolve transition
-        def show_status(self, xalign, yalign=0.78, anim_name=''):
-            if anim_name is '':
-                anim_name = 'idle50' if self.cur_hp <= 50 else 'idle100'
-
-            who = self.name.lower()
+        def show(self, anim_name, pos,
+                   zoom=(1.0, 1.0), time=0.5):
+            who = self.name.lower().replace('3', 'e').replace('0', 'o')
             anim = '%s %s' % (who, anim_name)
-            self.display(anim, xalign, yalign)
-
-        # Show generic status with renpy.show
-        def show(self, anim=''):
-            renpy.hide('%s %s' % (self.name, anim)) # Show character's turn is consumed
+            self.update(anim, pos, zoom, time)
 
         def hide(self):
             renpy.hide('%s %s' % (self.name, 'disabled')) # Show character's turn is consumed
@@ -70,6 +57,24 @@
             self.char = char
             self.fpos = fpos
             self.bpos = bpos
+
+        def getpos(self, stance):
+            res = (0.0, 0.0)
+            if (stance == 'back'):
+                res = self.bpos
+            elif (stance == 'front'):
+                res = self.fpos
+            return res
+
+        def idle(self):
+            anim_name = 'idle50' if self.cur_hp <= 50 else 'idle100'
+            anim = '%s %s' % (self.name.lower(), anim_name)
+            return anim
+
+        def to(self, stance, anim='', zoom=(0.3, 0.3), time=0.5):
+            anim = self.idle()
+            pos = self.getpos(stance)
+            self.update(anim, pos=pos, zoom=zoom, time=time)
 
         def setpos(self, fpos, bpos):
             self.fpos = fpos

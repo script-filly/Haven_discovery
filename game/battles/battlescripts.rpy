@@ -129,12 +129,13 @@ label battle_3:
 
     show screen battle_screen
     python:
+        zoom=(0.3, 0.3)
         eebee.setpos(bpos=[0.00, 0.648], fpos=[0.07, 0.648])
         oleka.setpos(bpos=[0.02, 0.648], fpos=[0.07, 0.648])
         blazer.setpos(bpos=[0.02, 0.540], fpos=[0.07, 0.540])
 
         for mem in party_list:
-            mem.update(idle(), pos=mem.bpos, zoom=(0.3, 0.3))
+            mem.to('back', zoom)
         ponipede.update("ponipede idle", pos=(0.5, -0.8)) # PoniP3d3
 
     menu:
@@ -148,6 +149,7 @@ label battle_3:
 label battle_2_loop(win, lose):
 
     python:
+        zoom=(0.3, 0.3)
         while (not check(party_list) and not check(enemies_list)):
             # Ally's Turn
             for index in range(0, len(party_list)):
@@ -156,7 +158,7 @@ label battle_2_loop(win, lose):
                     continue # Skip turn
 
                 players_turn = True # Process player input
-                ally.show_status(*ally.fpos)
+                ally.to('front', zoom)
                 battle_narrator("%s, it\'s your turn now" % ally.name)
 
                 res = ui.interact()    # Get player input
@@ -174,10 +176,10 @@ label battle_2_loop(win, lose):
                         battle_narrator("Take this! (damage dealt - [%s]hp)" % player_damage)
                     else:
                         ally.hide() # Show character's turn is consumed
-                        ally.show_status(*ally.bpos, anim_name='fight')
-                        enemy.show('hurt')
+                        ally.show('fight', ally.bpos, zoom)
+                        enemy.show('hurt', (0.5, -0.8))
                         # renpy.call(renpy.random.choice(["etaunt1", "etaunt2", "etaunt3"]), from_current=True)
-                    ally.show_status(*ally.bpos)
+                    ally.to('back', zoom)
                     if check(enemies_list):
                         break
 
@@ -191,15 +193,15 @@ label battle_2_loop(win, lose):
                 enemy_dmg = renpy.random.randint(enemy.min_dmg, enemy.max_dmg)
                 ally.cur_hp -= enemy_dmg
 
-                enemy.show('fight')
+                enemy.show('fight', (0.5, -0.8))
                 if ally.cur_hp <= 0:
-                    ally.show_status(*ally.bpos, anim_name='ko')
+                    ally.show('ko', ally.bpos)
                     battle_narrator('(%s continues to attack %s)!' % (enemy.name, ally.name))
                 else:
-                    ally.show_status(*ally.bpos, anim_name='hurt')
+                    ally.show('hurt', ally.bpos)
                     battle_narrator('Rrrrr! (%s dealt %s hp damage to %s)' % (enemy.name, enemy_dmg, ally.name))
 
-                ally.show_status(*ally.bpos)
+                ally.to('back')
                 if check(party_list):
                     break
 
