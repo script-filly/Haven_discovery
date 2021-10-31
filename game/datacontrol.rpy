@@ -9,10 +9,7 @@
     b = Character(_("Blazer"), color="#00CC00")
 
     class Member:
-        def __init__(self, name,
-                     max_hp, cur_hp,
-                     min_dmg, max_dmg
-                     ):
+        def __init__(self, name, max_hp, cur_hp, min_dmg, max_dmg):
             self.name = name
             self.max_hp = max_hp
             self.cur_hp = cur_hp
@@ -25,9 +22,9 @@
             xzoom, yzoom = zoom
             tfms = Transform(xzoom=xzoom, yzoom=yzoom)
             trans = [Dissolve(time)]
-            mem.dplay(anim, pos, tfms, trans)
+            mem.display(anim, pos, tfms, trans)
 
-        def dplay(self, anim, pos, tfms, trans):
+        def display(self, anim, pos, tfms, trans):
             renpy.show(anim, at_list=[pos, tfms])
             for tran in trans:
                 renpy.with_statement(tran)
