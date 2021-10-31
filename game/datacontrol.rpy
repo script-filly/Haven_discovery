@@ -8,18 +8,38 @@
     o = Character(_("oleka"), color="#00CC00")
     b = Character(_("Blazer"), color="#00CC00")
 
+    class Options:
+        def __init__(self, bpos=(0.0, 0.0), fpos=(0.0, 0.0), zoom=(1.0, 1.0)):
+            self.fpos = fpos
+            self.cpos = bpos
+            self.bpos = bpos
+            self.zoom = zoom
+
+        def getpos(self, stance):
+            return (self.fpos if (stance == 'front') else self.bpos)
+
     class Member:
-        def __init__(self, name, max_hp, cur_hp, min_dmg, max_dmg):
+        def __init__(self, name, max_hp, cur_hp, min_dmg, max_dmg, options=Options()):
             self.name = name
             self.max_hp = max_hp
             self.cur_hp = cur_hp
             self.min_dmg = min_dmg
             self.max_dmg = max_dmg
+            self.options = options
 
-        def update(self, anim, pos, zoom=(1.0, 1.0), time=0.5):
-            x, y = pos
+        def setopt(self, bpos=(0.0, 0.0), fpos=(0.0, 0.0), zoom=(1.0, 1.0)):
+            self.options = Options(bpos, fpos, zoom)
+            # self.options.fpos = fpos
+            # self.options.cpos = bpos
+            # self.options.bpos = bpos
+            # self.options.zoom = zoom
+
+        def update(self, anim, time=0.5):
+            x, y = self.options.cpos
+            print(x, y)
             pos = Position(xalign=x, yalign=y)
-            xzoom, yzoom = zoom
+            xzoom, yzoom = self.options.zoom
+            print(xzoom, yzoom)
             tfms = Transform(xzoom=xzoom, yzoom=yzoom)
             trans = [Dissolve(time)]
             mem.display(anim, pos, tfms, trans)
@@ -32,10 +52,10 @@
         def whoami(self):
             return self.name.lower().replace('3', 'e').replace('0', 'o')
 
-        def show(self, anim_name, pos, zoom=(1.0, 1.0), time=0.5):
+        def show(self, anim_name, time=0.5):
             who = self.whoami()
             anim = '%s %s' % (who, anim_name)
-            self.update(anim, pos, zoom, time)
+            self.update(anim, time)
 
         def hide(self):
             renpy.hide('%s %s' % (self.name, 'disabled')) # Show character's turn is consumed
@@ -47,53 +67,48 @@
             self.char(msg)
 
     class Party(Member):
-        def __init__(self, name,
-                     max_hp, cur_hp,
-                     min_dmg, max_dmg,
-                     char, fpos, bpos):
-            super(Party, self).__init__(name, max_hp, cur_hp, min_dmg, max_dmg)
+        # def __init__(self, name, max_hp, cur_hp, min_dmg, max_dmg, char, options=Options(0.0, 0.0)):
+            # super(Party, self).__init__(name, max_hp, cur_hp, min_dmg, max_dmg, options)
+        def __init__(self, char, *args):
+            # super(Party, self).__init__(char, *args[1:]
+            # args = args[0:0] + args[1:]
+            super(Party, self).__init__(*args)
             self.char = char
-            self.fpos = fpos
-            self.bpos = bpos
-
-        def getpos(self, stance):
-            res = (0.0, 0.0)
-            if (stance == 'back'):
-                res = self.bpos
-            elif (stance == 'front'):
-                res = self.fpos
-            return res
 
         def idle(self):
             anim_name = 'idle50' if self.cur_hp <= 50 else 'idle100'
             anim = '%s %s' % (self.name.lower(), anim_name)
             return anim
 
-        def to(self, stance, anim='', zoom=(0.3, 0.3), time=0.5):
+        def to(self, stance, anim=''):
             anim = self.idle()
-            pos = self.getpos(stance)
-            self.update(anim, pos=pos, zoom=zoom, time=time)
+            self.options.cpos = self.options.getpos(stance)
+            # self.setopt(self.options.getpos(stance))
+            # x, y = self.options.getpos(stance)
+            # self.options.cpos = (x, y)
+            self.update(anim)
 
-        def setpos(self, fpos, bpos):
-            self.fpos = fpos
-            self.bpos = bpos
+    # class Enemy(Member):
+        # # def __init__(self, name, max_hp, cur_hp, min_dmg, max_dmg, options=Options(0.0, 0.0)):
+            # # super(Enemy, self).__init__(name, max_hp, cur_hp, min_dmg, max_dmg, options=Options(0.0, 0.0))
+        # def __init__(self, *args):
+            # super(Enemy, self).__init__(*args)
 
-    class Enemy(Member):
-        def __init__(self, name,
-                     max_hp, cur_hp,
-                     min_dmg, max_dmg, pos):
-            super(Enemy, self).__init__(name, max_hp, cur_hp, min_dmg, max_dmg)
-            self.pos = pos
-
-        def show(self, anim_name):
-            who = self.whoami()
-            anim = '%s %s' % (who, anim_name)
-            self.update(anim, self.pos)
+        # def show(self, anim_name):
+            # who = self.whoami()
+            # anim = '%s %s' % (who, anim_name)
+            # self.update(anim)
 
     # Define all possible party members here
-    eebee  = Party("Eebee", 100, 100, 3, 5, e, [0.05, 0.78], [0.30, 0.78])
-    oleka  = Party("Oleka", 100, 60, 5, 6, o, [-0.03, 0.8], [0.30, 0.80])
-    blazer = Party("Blazer", 100, 49, 10, 15, b, [0.02, 0.5], [0.30, 0.80])
+    # eebee  = Party("Eebee", 100, 100, 3, 5, e)
+    # oleka  = Party("Oleka", 100, 60, 5, 6, o)
+    # blazer = Party("Blazer", 100, 49, 10, 15, b)
+    eebee  = Party(e, "Eebee", 100, 100, 3, 5)
+    oleka  = Party(o, "Oleka", 100, 60, 5, 6)
+    blazer = Party(b, "Blazer", 100, 49, 10, 15)
+    # eebee  = Party("Eebee", 100, 100, 3, 5)
+    # oleka  = Party("Oleka", 100, 60, 5, 6)
+    # blazer = Party("Blazer", 100, 49, 10, 15)
 
 python:
     if affectioncount <= 0:
@@ -104,7 +119,6 @@ python:
 
 # AI Choice Check - Things AI decides themselves
 default forgiveplayer = False
-
 
 # Story checks
 default lighton = False
@@ -127,5 +141,3 @@ default check5 = False
 default check6 = False
 default check7 = False
 default check8 = False
-default healthcount = 100
-default olekahealth = 100

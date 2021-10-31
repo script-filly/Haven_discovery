@@ -100,21 +100,19 @@ label battle_game_2:
     $ party_list = [eebee, oleka]
     $ potions_left = 10
     $ players_turn = False
-    $ snaike = Enemy("SnAIke", 75, 75, 5, 12, [0.93, 0.8])
+    $ snaike = Member("SnAIke", 75, 75, 5, 12)
     $ enemies_list = [snaike] # TODO: Enemies will have descriptions
 
     show screen battle_screen
     python:
+        eebee.setopt(bpos=(0.05, 0.78), fpos=(0.30, 0.78))
+        oleka.setopt(bpos=(-0.03, 0.8), fpos=(0.30, 0.80))
+        snaike.setopt(bpos=(0.93, 0.8))
         for mem in party_list:
-            mem.show_status(*mem.pos)
+            mem.to('back')
         snaike.show('disabled', snake.pos)
 
-    menu:
-        "Malicious code dectected"
-        "Help AI":
-            play music "audio/music/suspended-battle.ogg"
-    "Let the battle begin!"
-    call battle_2_loop('battle_2_win', 'battle_2_lose')
+    call battle_menu('battle_2_win', 'battle_2_lose')
 
 label battle_3:
     show bg cave6
@@ -124,20 +122,22 @@ label battle_3:
     $ party_list = [eebee, oleka, blazer]
     $ potions_left = 10
     $ players_turn = False
-    $ ponipede = Enemy("P0niP3d3", 500, 500, 10, 20, [0.5, -0.8])
+    $ ponipede = Member("P0niP3d3", 500, 500, 10, 20)
     $ enemies_list = [ponipede]
 
     show screen battle_screen
     python:
-        zoom=(0.3, 0.3)
-        eebee.setpos(bpos=[0.00, 0.648], fpos=[0.07, 0.648])
-        oleka.setpos(bpos=[0.02, 0.648], fpos=[0.07, 0.648])
-        blazer.setpos(bpos=[0.02, 0.540], fpos=[0.07, 0.540])
-
+        eebee.setopt(bpos=(0.00, 0.648), fpos=(0.07, 0.648), zoom=(0.3, 0.3))
+        oleka.setopt(bpos=(0.02, 0.648), fpos=(0.07, 0.648), zoom=(0.3, 0.3))
+        blazer.setopt(bpos=(0.02, 0.540), fpos=(0.07, 0.540), zoom=(0.3, 0.3))
+        ponipede.setopt(bpos=(0.5, -0.8))
         for mem in party_list:
-            mem.to('back', zoom)
+            mem.to('back')
         ponipede.show("idle")
 
+    call battle_menu('battle_2_win', 'battle_2_lose')
+
+label battle_menu(win, lose):
     menu:
         "Malicious code dectected"
         "Help AI":
@@ -145,11 +145,14 @@ label battle_3:
     "Let the battle begin!"
     call battle_2_loop('battle_2_win', 'battle_2_lose')
 
-## Main battle loop ##
 label battle_2_loop(win, lose):
 
     python:
-        zoom=(0.3, 0.3)
+        party_list[0].setopt(bpos=(0.00, 0.648), fpos=(0.07, 0.648), zoom=(0.3, 0.3))
+        party_list[1].setopt(bpos=(0.02, 0.648), fpos=(0.07, 0.648), zoom=(0.3, 0.3))
+        party_list[2].setopt(bpos=(0.02, 0.540), fpos=(0.07, 0.540), zoom=(0.3, 0.3))
+        enemies_list[0].setopt(bpos=(0.5, -0.8))
+
         while (not check(party_list) and not check(enemies_list)):
             # Ally's Turn
             for index in range(0, len(party_list)):
@@ -158,7 +161,7 @@ label battle_2_loop(win, lose):
                     continue # Skip turn
 
                 players_turn = True # Process player input
-                ally.to('front', zoom)
+                ally.to('front')
                 battle_narrator("%s, it\'s your turn now" % ally.name)
 
                 res = ui.interact()    # Get player input
@@ -176,10 +179,10 @@ label battle_2_loop(win, lose):
                         battle_narrator("Take this! (damage dealt - [%s]hp)" % player_damage)
                     else:
                         ally.hide() # Show character's turn is consumed
-                        ally.show('fight', ally.bpos, zoom)
+                        ally.show('fight')
                         enemy.show('hurt')
                         # renpy.call(renpy.random.choice(["etaunt1", "etaunt2", "etaunt3"]), from_current=True)
-                    ally.to('back', zoom)
+                    ally.to('back')
                     if check(enemies_list):
                         break
 
@@ -195,10 +198,10 @@ label battle_2_loop(win, lose):
 
                 enemy.show('fight')
                 if ally.cur_hp <= 0:
-                    ally.show('ko', ally.bpos)
+                    ally.show('ko')
                     battle_narrator('(%s continues to attack %s)!' % (enemy.name, ally.name))
                 else:
-                    ally.show('hurt', ally.bpos)
+                    ally.show('hurt')
                     battle_narrator('Rrrrr! (%s dealt %s hp damage to %s)' % (enemy.name, enemy_dmg, ally.name))
 
                 ally.to('back')
