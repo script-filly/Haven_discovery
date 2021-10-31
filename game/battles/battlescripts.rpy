@@ -100,14 +100,14 @@ label battle_game_2:
     $ party_list = [eebee, oleka]
     $ potions_left = 10
     $ players_turn = False
-    $ snaike = Member("SnAIke", 75, 75, 5, 12)
+    $ snaike = Enemy("SnAIke", 75, 75, 5, 12, [0.93, 0.8])
     $ enemies_list = [snaike] # TODO: Enemies will have descriptions
 
     show screen battle_screen
     python:
         for mem in party_list:
             mem.show_status(*mem.pos)
-        snaike.display("snaike disabled", 0.93, 0.8) # SnAIke
+        snaike.show('disabled', snake.pos)
 
     menu:
         "Malicious code dectected"
@@ -124,7 +124,7 @@ label battle_3:
     $ party_list = [eebee, oleka, blazer]
     $ potions_left = 10
     $ players_turn = False
-    $ ponipede = Member("P0niP3d3", 500, 500, 10, 20)
+    $ ponipede = Enemy("P0niP3d3", 500, 500, 10, 20, [0.5, -0.8])
     $ enemies_list = [ponipede]
 
     show screen battle_screen
@@ -136,7 +136,7 @@ label battle_3:
 
         for mem in party_list:
             mem.to('back', zoom)
-        ponipede.update("ponipede idle", pos=(0.5, -0.8)) # PoniP3d3
+        ponipede.show("idle")
 
     menu:
         "Malicious code dectected"
@@ -177,7 +177,7 @@ label battle_2_loop(win, lose):
                     else:
                         ally.hide() # Show character's turn is consumed
                         ally.show('fight', ally.bpos, zoom)
-                        enemy.show('hurt', (0.5, -0.8))
+                        enemy.show('hurt')
                         # renpy.call(renpy.random.choice(["etaunt1", "etaunt2", "etaunt3"]), from_current=True)
                     ally.to('back', zoom)
                     if check(enemies_list):
@@ -193,7 +193,7 @@ label battle_2_loop(win, lose):
                 enemy_dmg = renpy.random.randint(enemy.min_dmg, enemy.max_dmg)
                 ally.cur_hp -= enemy_dmg
 
-                enemy.show('fight', (0.5, -0.8))
+                enemy.show('fight')
                 if ally.cur_hp <= 0:
                     ally.show('ko', ally.bpos)
                     battle_narrator('(%s continues to attack %s)!' % (enemy.name, ally.name))

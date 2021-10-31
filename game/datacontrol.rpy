@@ -19,8 +19,7 @@
             self.min_dmg = min_dmg
             self.max_dmg = max_dmg
 
-        def update(self, anim, pos,
-                   zoom=(1.0, 1.0), time=0.5):
+        def update(self, anim, pos, zoom=(1.0, 1.0), time=0.5):
             x, y = pos
             pos = Position(xalign=x, yalign=y)
             xzoom, yzoom = zoom
@@ -33,9 +32,11 @@
             for tran in trans:
                 renpy.with_statement(tran)
 
-        def show(self, anim_name, pos,
-                   zoom=(1.0, 1.0), time=0.5):
-            who = self.name.lower().replace('3', 'e').replace('0', 'o')
+        def whoami(self):
+            return self.name.lower().replace('3', 'e').replace('0', 'o')
+
+        def show(self, anim_name, pos, zoom=(1.0, 1.0), time=0.5):
+            who = self.whoami()
             anim = '%s %s' % (who, anim_name)
             self.update(anim, pos, zoom, time)
 
@@ -79,6 +80,18 @@
         def setpos(self, fpos, bpos):
             self.fpos = fpos
             self.bpos = bpos
+
+    class Enemy(Member):
+        def __init__(self, name,
+                     max_hp, cur_hp,
+                     min_dmg, max_dmg, pos):
+            super(Enemy, self).__init__(name, max_hp, cur_hp, min_dmg, max_dmg)
+            self.pos = pos
+
+        def show(self, anim_name):
+            who = self.whoami()
+            anim = '%s %s' % (who, anim_name)
+            self.update(anim, self.pos)
 
     # Define all possible party members here
     eebee  = Party("Eebee", 100, 100, 3, 5, e, [0.05, 0.78], [0.30, 0.78])
