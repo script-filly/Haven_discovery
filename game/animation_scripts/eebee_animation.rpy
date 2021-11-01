@@ -266,3 +266,25 @@ image eebee heal:
      "images/ebee/fight/heal/eebee_heal_0015.png" 
      0.1
      
+image eebee idle50:
+    choice:
+     "images/ebee/fight/idle/100/eebee-idle-50_0001.png" 
+     0.1
+     "images/ebee/fight/idle/100/eebee-idle-50_0002.png" 
+     0.1
+     "images/ebee/fight/idle/100/eebee-idle-50_0003.png" 
+     0.1
+     "images/ebee/fight/idle/100/eebee-idle-50_0004.png" 
+     0.1
+     "images/ebee/fight/idle/100/eebee-idle-50_0005.png" 
+    choice:
+     0.1
+     "images/ebee/fight/idle/100/eebee-idle-50_0005.png" 
+     0.1
+     "images/ebee/fight/idle/100/eebee-idle-50_0006.png" 
+     0.1
+     "images/ebee/fight/idle/100/eebee-idle-50_0007.png" 
+     0.1
+     "images/ebee/fight/idle/100/eebee-idle-50_0008.png" 
+     5.0
+    repeat
