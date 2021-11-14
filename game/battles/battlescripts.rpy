@@ -97,6 +97,12 @@ init python:
             select = members[renpy.random.randint(0, len(members) - 1)]
         return select
 
+    def attack(members, attacker):
+        target = choose(members)
+        dmg = renpy.random.randint(attacker.min_dmg, attacker.max_dmg)
+        target.cur_hp -= dmg
+        return target
+
 label battle_game_2:
     hide screen inventory
     hide screen itemdisplay
@@ -179,10 +185,7 @@ label battle_2_loop(win, lose):
                     heal(ally, potions_left)
                     ally.say("10hp restored")
                 else: # Attack
-                    player_damage = renpy.random.randint( ally.min_dmg, ally.max_dmg)
-                    enemy = choose(enemies_list)
-                    enemy.cur_hp -= player_damage
-
+                    enemy = attack(enemies_list, ally)
                     if ally.cur_hp <= 0:
                         battle_narrator("Take this! (damage dealt - [%s]hp)" % player_damage)
                     else:
@@ -199,11 +202,7 @@ label battle_2_loop(win, lose):
                 enemy = enemies_list[index]
                 if enemy.cur_hp < 0:
                     continue # Skip turn
-
-                ally = choose(party_list)
-                enemy_dmg = renpy.random.randint(enemy.min_dmg, enemy.max_dmg)
-                ally.cur_hp -= enemy_dmg
-
+                ally = attack(party_list, enemy)
                 enemy.show('fight')
                 if ally.cur_hp <= 0:
                     ally.show('ko')
