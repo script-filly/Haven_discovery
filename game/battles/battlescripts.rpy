@@ -107,16 +107,18 @@ label battle_game_2:
     hide screen inventory
     hide screen itemdisplay
     scene bg cave5
-
-    # Allies and Enemies can be added via party_list.append(Member(...))
-    $ party_list = [eebee, oleka]
-    $ potions_left = 10
-    $ players_turn = False
-    $ snaike = Member("SnAIke", 75, 75, 5, 12)
-    $ enemies_list = [snaike] # TODO: Enemies will have descriptions
-
     show screen battle_screen
+
     python:
+        # Initial Setup
+        # Allies and Enemies can be added via party_list.append(Member(...))
+        party_list = [eebee, oleka]
+        potions_left = 10
+        players_turn = False
+        snaike = Member("SnAIke", 75, 75, 5, 12)
+        enemies_list = [snaike] # TODO: Enemies will have descriptions
+
+        # Position Actors
         eebee.setopt(bpos=(0.05, 0.78), fpos=(0.30, 0.78))
         oleka.setopt(bpos=(-0.03, 0.8), fpos=(0.30, 0.80))
         snaike.setopt(bpos=(0.93, 0.8))
@@ -130,18 +132,14 @@ label battle_3:
     show bg cave6
     hide screen inventory
     hide screen itemdisplay
-
-    $ party_list = [eebee, oleka, blazer]
-    $ potions_left = 10
-    $ players_turn = False
-    $ ponipede = Member("P0niP3d3", 500, 500, 10, 20)
-    $ enemies_list = [ponipede]
-
     show screen battle_screen
+
     python:
-        eebee.cur_hp = 1
-        oleka.cur_hp = 1
-        blazer.cur_hp = 1
+        party_list = [eebee, oleka, blazer]
+        potions_left = 10
+        players_turn = False
+        ponipede = Member("P0niP3d3", 500, 500, 10, 20)
+        enemies_list = [ponipede]
 
         eebee.setopt(bpos=(0.00, 0.648), fpos=(0.07, 0.648), zoom=(0.3, 0.3))
         oleka.setopt(bpos=(0.02, 0.648), fpos=(0.07, 0.648), zoom=(0.3, 0.3))
