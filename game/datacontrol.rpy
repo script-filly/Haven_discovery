@@ -29,17 +29,11 @@
 
         def setopt(self, bpos=(0.0, 0.0), fpos=(0.0, 0.0), zoom=(1.0, 1.0)):
             self.options = Options(bpos, fpos, zoom)
-            # self.options.fpos = fpos
-            # self.options.cpos = bpos
-            # self.options.bpos = bpos
-            # self.options.zoom = zoom
 
         def update(self, anim, time=0.5):
             x, y = self.options.cpos
-            print(x, y)
             pos = Position(xalign=x, yalign=y)
             xzoom, yzoom = self.options.zoom
-            print(xzoom, yzoom)
             tfms = Transform(xzoom=xzoom, yzoom=yzoom)
             trans = [Dissolve(time)]
             mem.display(anim, pos, tfms, trans)
@@ -67,48 +61,27 @@
             self.char(msg)
 
     class Party(Member):
-        # def __init__(self, name, max_hp, cur_hp, min_dmg, max_dmg, char, options=Options(0.0, 0.0)):
-            # super(Party, self).__init__(name, max_hp, cur_hp, min_dmg, max_dmg, options)
         def __init__(self, char, *args):
-            # super(Party, self).__init__(char, *args[1:]
-            # args = args[0:0] + args[1:]
             super(Party, self).__init__(*args)
             self.char = char
 
         def idle(self):
             anim_name = 'idle50' if self.cur_hp <= 50 else 'idle100'
-            anim = '%s %s' % (self.name.lower(), anim_name)
+            who = self.name.lower()
+            if (who == 'eebee'):
+                anim_name = 'idle100'
+            anim = '%s %s' % (who, anim_name)
             return anim
 
         def to(self, stance, anim=''):
             anim = self.idle()
             self.options.cpos = self.options.getpos(stance)
-            # self.setopt(self.options.getpos(stance))
-            # x, y = self.options.getpos(stance)
-            # self.options.cpos = (x, y)
             self.update(anim)
 
-    # class Enemy(Member):
-        # # def __init__(self, name, max_hp, cur_hp, min_dmg, max_dmg, options=Options(0.0, 0.0)):
-            # # super(Enemy, self).__init__(name, max_hp, cur_hp, min_dmg, max_dmg, options=Options(0.0, 0.0))
-        # def __init__(self, *args):
-            # super(Enemy, self).__init__(*args)
-
-        # def show(self, anim_name):
-            # who = self.whoami()
-            # anim = '%s %s' % (who, anim_name)
-            # self.update(anim)
-
     # Define all possible party members here
-    # eebee  = Party("Eebee", 100, 100, 3, 5, e)
-    # oleka  = Party("Oleka", 100, 60, 5, 6, o)
-    # blazer = Party("Blazer", 100, 49, 10, 15, b)
     eebee  = Party(e, "Eebee", 100, 100, 3, 5)
     oleka  = Party(o, "Oleka", 100, 60, 5, 6)
     blazer = Party(b, "Blazer", 100, 49, 10, 15)
-    # eebee  = Party("Eebee", 100, 100, 3, 5)
-    # oleka  = Party("Oleka", 100, 60, 5, 6)
-    # blazer = Party("Blazer", 100, 49, 10, 15)
 
 python:
     if affectioncount <= 0:
