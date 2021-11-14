@@ -103,7 +103,7 @@ init python:
         target.cur_hp -= dmg
         return target, dmg
 
-label battle_game_2:
+label battle_2:
     hide screen inventory
     hide screen itemdisplay
     scene bg cave5
@@ -124,7 +124,7 @@ label battle_game_2:
         snaike.setopt(bpos=(0.93, 0.8))
         for mem in party_list:
             mem.to('back')
-        snaike.show('disabled', snake.pos)
+        snaike.show('disabled', snaike.options.cpos)
 
     call battle_menu('battle_2_win', 'battle_2_lose')
 
@@ -160,11 +160,6 @@ label battle_menu(win, lose):
 
 label battle_2_loop(win, lose):
     python:
-        party_list[0].setopt(bpos=(0.00, 0.648), fpos=(0.07, 0.648), zoom=(0.3, 0.3))
-        party_list[1].setopt(bpos=(0.02, 0.648), fpos=(0.07, 0.648), zoom=(0.3, 0.3))
-        party_list[2].setopt(bpos=(0.02, 0.540), fpos=(0.07, 0.540), zoom=(0.3, 0.3))
-        enemies_list[0].setopt(bpos=(0.5, -0.8))
-
         while (not check(party_list) and not check(enemies_list)):
             # Ally's Turn
             for index in range(0, len(party_list)):
