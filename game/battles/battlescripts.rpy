@@ -91,6 +91,12 @@ init python:
                 fainted.append(member.name)
         return (True if len(fainted) == len(members) else False)
 
+    def choose(members):
+        select = members[renpy.random.randint(0, len(members) - 1)]
+        while (select.cur_hp < 0):
+            select = members[renpy.random.randint(0, len(members) - 1)]
+        return select
+
 label battle_game_2:
     hide screen inventory
     hide screen itemdisplay
@@ -127,6 +133,10 @@ label battle_3:
 
     show screen battle_screen
     python:
+        eebee.cur_hp = 1
+        oleka.cur_hp = 1
+        blazer.cur_hp = 1
+
         eebee.setopt(bpos=(0.00, 0.648), fpos=(0.07, 0.648), zoom=(0.3, 0.3))
         oleka.setopt(bpos=(0.02, 0.648), fpos=(0.07, 0.648), zoom=(0.3, 0.3))
         blazer.setopt(bpos=(0.02, 0.540), fpos=(0.07, 0.540), zoom=(0.3, 0.3))
@@ -134,7 +144,6 @@ label battle_3:
         for mem in party_list:
             mem.to('back')
         ponipede.show("idle")
-
     call battle_menu('battle_2_win', 'battle_2_lose')
 
 label battle_menu(win, lose):
@@ -143,10 +152,9 @@ label battle_menu(win, lose):
         "Help AI":
             play music "audio/music/suspended-battle.ogg"
     "Let the battle begin!"
-    call battle_2_loop('battle_2_win', 'battle_2_lose')
+    call battle_2_loop(win, lose)
 
 label battle_2_loop(win, lose):
-
     python:
         party_list[0].setopt(bpos=(0.00, 0.648), fpos=(0.07, 0.648), zoom=(0.3, 0.3))
         party_list[1].setopt(bpos=(0.02, 0.648), fpos=(0.07, 0.648), zoom=(0.3, 0.3))
@@ -172,7 +180,7 @@ label battle_2_loop(win, lose):
                     ally.say("10hp restored")
                 else: # Attack
                     player_damage = renpy.random.randint( ally.min_dmg, ally.max_dmg)
-                    enemy = enemies_list[res]
+                    enemy = choose(enemies_list)
                     enemy.cur_hp -= player_damage
 
                     if ally.cur_hp <= 0:
@@ -192,7 +200,7 @@ label battle_2_loop(win, lose):
                 if enemy.cur_hp < 0:
                     continue # Skip turn
 
-                ally = party_list[renpy.random.randint(0, (len(party_list)-1))]
+                ally = choose(party_list)
                 enemy_dmg = renpy.random.randint(enemy.min_dmg, enemy.max_dmg)
                 ally.cur_hp -= enemy_dmg
 
@@ -225,9 +233,9 @@ label battle_2_win:
     "+1 Artifact found"
     pause
     hide screen battle_screen
-    return
+    jump start3
 
 label battle_2_lose:
     "X_X"
     hide screen battle_screen
-    return
+    jump start3
