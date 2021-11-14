@@ -249,7 +249,7 @@ menu:
 
 label begin:
     voice "audio/vox/eebee/eebeevoice-12.ogg"
-    $ healthcount -= 10
+    $ eebee.cur_hp -= 10
     e "Ow!"
     show Eebee snowed at Position (xalign = 0.25, yalign = 0.8) with dissolve
     voice "audio/vox/eebee/eebeevoice-13.ogg"
