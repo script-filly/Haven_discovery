@@ -104,7 +104,6 @@ default bookcount = 0
 default cryptocount = 0
 default affectioncount = 5
 default olekaaffection = 5
-default blazerhealth = 49
 #Manual data checks- will recode once a better way is found
 default check1 = False
 default check2 = False
