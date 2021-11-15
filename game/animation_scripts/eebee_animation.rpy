@@ -45,7 +45,7 @@ image Eebee fall:
     "images/ebee/animations/fall/fall0006.png"
     xalign 0.25 yalign 0.8
     0.1
-    
+
 
 image Eebee wavether:
     "images/ebee/animations/wave/1.png"
@@ -57,7 +57,7 @@ image Eebee wavether:
     repeat
 
 image Eebee tether:
-    "images/ebee/animations/animation1/1.png" 
+    "images/ebee/animations/animation1/1.png"
     xalign 0.25 yalign 0.0
     0.3
     "images/ebee/animations/animation1/2.png"
@@ -86,7 +86,7 @@ image Eebee tether:
     0.3
     "images/ebee/animations/animation1/10.png"
     xalign 0.25 yalign 0.0
-    0.3    
+    0.3
     repeat
 
 image eebee walkcyc:
@@ -125,7 +125,7 @@ image eebee walkcyc:
 
 
 image eebee fight:
-    "images/ebee/fight/attack/eebee-fight0001.png" 
+    "images/ebee/fight/attack/eebee-fight0001.png"
     0.1
     "images/ebee/fight/attack/eebee-fight0002.png"
     0.1
@@ -142,7 +142,7 @@ image eebee fight:
     2.0
 
 image eebee hurt:
-    "images/ebee/fight/attack/eebee-fight0001.png" 
+    "images/ebee/fight/attack/eebee-fight0001.png"
     1.0
     "images/ebee/fight/hurt/eebee-hurt0002.png"
     0.1
@@ -164,7 +164,7 @@ image eebee hurt:
     2.0
 
 image eebee ko:
-    "images/ebee/fight/ko/eebee-ko0001.png" 
+    "images/ebee/fight/ko/eebee-ko0001.png"
     1.0
     "images/ebee/fight/ko/eebee-ko0002.png"
     0.1
@@ -181,24 +181,24 @@ image eebee ko:
 
 image eebee idle100:
     choice:
-     "images/ebee/fight/idle/100/eebee-idle-100_0001.png" 
+     "images/ebee/fight/idle/100/eebee-idle-100_0001.png"
      0.1
-     "images/ebee/fight/idle/100/eebee-idle-100_0002.png" 
+     "images/ebee/fight/idle/100/eebee-idle-100_0002.png"
      0.1
-     "images/ebee/fight/idle/100/eebee-idle-100_0003.png" 
+     "images/ebee/fight/idle/100/eebee-idle-100_0003.png"
      0.1
-     "images/ebee/fight/idle/100/eebee-idle-100_0004.png" 
+     "images/ebee/fight/idle/100/eebee-idle-100_0004.png"
      0.1
-     "images/ebee/fight/idle/100/eebee-idle-100_0005.png" 
+     "images/ebee/fight/idle/100/eebee-idle-100_0005.png"
      0.1
-     "images/ebee/fight/idle/100/eebee-idle-100_0006.png" 
+     "images/ebee/fight/idle/100/eebee-idle-100_0006.png"
      0.1
-     "images/ebee/fight/idle/100/eebee-idle-100_0007.png" 
+     "images/ebee/fight/idle/100/eebee-idle-100_0007.png"
      0.1
-     "images/ebee/fight/idle/100/eebee-idle-100_0008.png" 
+     "images/ebee/fight/idle/100/eebee-idle-100_0008.png"
      5.0
     choice:
-     "images/ebee/fight/idle/100/eebee-idle-100_0009.png" 
+     "images/ebee/fight/idle/100/eebee-idle-100_0009.png"
      0.1
      "images/ebee/fight/idle/100/eebee-idle-100_0008.png"
      5.0
@@ -231,60 +231,60 @@ image eebee idle100:
      "images/ebee/fight/idle/100/eebee-idle-100_0023.png"
      0.1
      "images/ebee/fight/idle/100/eebee-idle-100_0024.png"
-     5.0  
+     5.0
     repeat
-    
+
 image eebee heal:
-     "images/ebee/fight/heal/eebee_heal_0001.png" 
+     "images/ebee/fight/heal/eebee_heal_0001.png"
      0.1
-     "images/ebee/fight/heal/eebee_heal_0002.png" 
+     "images/ebee/fight/heal/eebee_heal_0002.png"
      0.1
-     "images/ebee/fight/heal/eebee_heal_0003.png" 
+     "images/ebee/fight/heal/eebee_heal_0003.png"
      0.1
-     "images/ebee/fight/heal/eebee_heal_0004.png" 
+     "images/ebee/fight/heal/eebee_heal_0004.png"
      0.1
-     "images/ebee/fight/heal/eebee_heal_0005.png" 
+     "images/ebee/fight/heal/eebee_heal_0005.png"
      0.1
-     "images/ebee/fight/heal/eebee_heal_0006.png" 
+     "images/ebee/fight/heal/eebee_heal_0006.png"
      0.1
-     "images/ebee/fight/heal/eebee_heal_0007.png" 
+     "images/ebee/fight/heal/eebee_heal_0007.png"
      0.1
-     "images/ebee/fight/heal/eebee_heal_0008.png" 
+     "images/ebee/fight/heal/eebee_heal_0008.png"
      0.1
-     "images/ebee/fight/heal/eebee_heal_0009.png" 
+     "images/ebee/fight/heal/eebee_heal_0009.png"
      0.1
-     "images/ebee/fight/heal/eebee_heal_0010.png" 
+     "images/ebee/fight/heal/eebee_heal_0010.png"
      0.1
-     "images/ebee/fight/heal/eebee_heal_0011.png" 
+     "images/ebee/fight/heal/eebee_heal_0011.png"
      0.1
-     "images/ebee/fight/heal/eebee_heal_0012.png" 
+     "images/ebee/fight/heal/eebee_heal_0012.png"
      0.1
-     "images/ebee/fight/heal/eebee_heal_0013.png" 
+     "images/ebee/fight/heal/eebee_heal_0013.png"
      0.1
-     "images/ebee/fight/heal/eebee_heal_0014.png" 
+     "images/ebee/fight/heal/eebee_heal_0014.png"
      0.1
-     "images/ebee/fight/heal/eebee_heal_0015.png" 
+     "images/ebee/fight/heal/eebee_heal_0015.png"
      0.1
-     
+
 image eebee idle50:
     choice:
-     "images/ebee/fight/idle/100/eebee-idle-50_0001.png" 
+     "images/ebee/fight/idle/50/eebee-idle-50_0001.png"
      0.1
-     "images/ebee/fight/idle/100/eebee-idle-50_0002.png" 
+     "images/ebee/fight/idle/50/eebee-idle-50_0002.png"
      0.1
-     "images/ebee/fight/idle/100/eebee-idle-50_0003.png" 
+     "images/ebee/fight/idle/50/eebee-idle-50_0003.png"
      0.1
-     "images/ebee/fight/idle/100/eebee-idle-50_0004.png" 
+     "images/ebee/fight/idle/50/eebee-idle-50_0004.png"
      0.1
-     "images/ebee/fight/idle/100/eebee-idle-50_0005.png" 
+     "images/ebee/fight/idle/50/eebee-idle-50_0005.png"
     choice:
      0.1
-     "images/ebee/fight/idle/100/eebee-idle-50_0005.png" 
+     "images/ebee/fight/idle/50/eebee-idle-50_0005.png"
      0.1
-     "images/ebee/fight/idle/100/eebee-idle-50_0006.png" 
+     "images/ebee/fight/idle/50/eebee-idle-50_0006.png"
      0.1
-     "images/ebee/fight/idle/100/eebee-idle-50_0007.png" 
+     "images/ebee/fight/idle/50/eebee-idle-50_0007.png"
      0.1
-     "images/ebee/fight/idle/100/eebee-idle-50_0008.png" 
+     "images/ebee/fight/idle/50/eebee-idle-50_0008.png"
      5.0
     repeat
