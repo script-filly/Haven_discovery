@@ -195,7 +195,6 @@ label start3:
     stop music fadeout 3.0
     with Pause(3.2)
     
-    $ inv = []
     play music "audio/music/campsite.ogg" fadein 3.0
     scene bg scene1
     show screen player_ui (_layer="ui")
