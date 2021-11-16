@@ -70,8 +70,7 @@ label chestopen1:
     show Eebee happybag with dissolve
     voice "audio/vox/eebee/eebeevoice-39.ogg"
     e "See the medipack in my inventory? Click on it!"
-    while "medipack" in inv:
-        pause 0.01
+    $ block()
 
 label introductions:
     voice "audio/vox/eebee/eebeevoice-40.ogg"
