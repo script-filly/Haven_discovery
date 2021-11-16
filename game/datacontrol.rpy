@@ -85,6 +85,25 @@
 
     inv = []
 
+    def in_inv(item):
+        for i in inv:
+            if i:
+                name, amt = i
+                if name == item:
+                    return True
+        return False
+
+    def take(item, amount=1):
+        if (in_inv(item)):
+            for i in inv:
+                if i:
+                    name, amt = i
+                    if name == item:
+                        i[1] += amount
+        else:
+            inv.append([item, amount])
+            print(inv)
+
     _await = False
     def update():
         # If we're already waiting, then stop waiting

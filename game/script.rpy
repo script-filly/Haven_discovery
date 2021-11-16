@@ -283,7 +283,7 @@ menu:
 
 #Pick up tutorial section##
 label tutorial:
-    if "shotgun" in inv:
+    if in_inv("shotgun"):
         show Eebee happy2 at Position(xalign=0.5, yalign=0.8) with dissolve
         voice "audio/vox/eebee/eebeevoice-22.ogg"
         e "I think that is everything!"
@@ -302,7 +302,7 @@ label tutorial:
 
 label shotgunpick:
     show Eebee pickupbag at Position(xalign=0.5, yalign=0.8) with dissolve
-    $ inv.append("shotgun")
+    $ take("shotgun")
     voice "audio/vox/eebee/eebeevoice-25.ogg"
     e "There's my little boom stick!..."
     jump tutorial
