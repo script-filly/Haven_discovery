@@ -85,22 +85,6 @@
 
     inv = []
 
-    _await = False
-    def update():
-        # If we're already waiting, then stop waiting
-        if (_await==True):
-            renpy.dynamic(_await=False)
-        else: # If we're not waiting, then begin waiting
-            renpy.dynamic(_await=True)
-
-    def block(): # Blocks for user input
-        while True:
-            renpy.dynamic(_await=True) # Dynamically update _await
-            if (_await == False): # If we're told to stop waiting, then quit
-                break
-            else: # Keep waiting for user input
-                renpy.pause(1)
-
 python:
     if affectioncount <= 0:
      affectioncount = 0

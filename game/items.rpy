@@ -72,20 +72,19 @@ label lamptip:
     return
 
 label medipacktip:
-    python:
-        if eebee.cur_hp <= 99:
-            for item in inv:
-                if item == "medipack":
-                    voice("audio/vox/eebee/items/eebeevoice-item2.ogg")
-                    e("Thank you, A small memory leak can cause all sorts of problems.")
-                    eebee.cur_hp = 100
-                    affectioncount += 5
-                    inv.remove("medipack")
-                    break
-        else:
-            voice("audio/vox/eebee/items/eebeevoice-item2.ogg")
-            e("That's a medipack, I don't need it right now")
-        update()
+$ healthcount = eebee.cur_hp
+with Pause(0.1)
+if healthcount <= 99:
+    if "medipack" in inv:
+        voice "audio/vox/eebee/items/eebeevoice-item2.ogg"
+        e "Thank you, A small memory leak can cause all sorts of problems."
+        $ eebee.cur_hp = 100
+        $ affectioncount += 5
+        $ inv.remove("medipack")
+    return
+else:
+    voice "audio/vox/eebee/items/eebeevoice-item2.ogg"
+    e "That's a medipack, I don't need it right now"
     return
 ## in world items ##
 
